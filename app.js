@@ -25,22 +25,32 @@ app.configure("production", function () {
   app.use(express.errorHandler({dumpExceptions: true}));
 });
 
+/**
+ * Look for status_code_override=* in the URL query params
+ * If found, override the response code to that value.
+ * If the value is 200..299, continue with next(), else
+ * finalize the request here.
+ */
+app.use(function(req, res, next){
+  var status_code_override = req.query.status_code_override;
+  console.log("req.query:", req.query.status_code_override);
+  if(undefined !== status_code_override) {
+    console.log("Found status code override in request:", status_code_override);
+    res.status(status_code_override);
+    if(status_code_override >= 200 && status_code_override < 300) {
+      next();
+    } else {
+      res.send();
+    }
+  };
+});
 
 app.use(function(err, req, res, next){
   console.error(err.stack);
   res.send(500, 'Something broke!');
 });
 
-// long hand
 app.get("/", function(req, res){
-  var body = "Hello World";
-  res.setHeader("Content-Type", "text/plain");
-  res.setHeader("Content-Length", Buffer.byteLength(body));
-  res.end(body);
-});
-
-// express short hand
-app.get("/short", function(req, res){
   res.send("Hello World");
 });
 
@@ -51,7 +61,7 @@ app.get("/routes", function(req, res){
   if('development' == app.get('env')) {
     res.send(app.routes);
   } else {
-    res.send(404);
+    res.status(404).send();
   }
 });
 
