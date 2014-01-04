@@ -1,0 +1,9 @@
+{
+  "name": "knockoff",
+  "description": "lightweight web service faking framework",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "~3.4"
+  }
+}
