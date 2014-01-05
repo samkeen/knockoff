@@ -23,16 +23,21 @@ module.exports = function(grunt) {
           src: js_files
         }
       }
+    },
+    nodeunit: {
+      all: ["tests/**/*_test.js"]
     }
   });
 
   grunt.loadNpmTasks("grunt-contrib-jshint");
+  grunt.loadNpmTasks("grunt-contrib-nodeunit");
 
-  // Default task(s).
+  // Default task
   grunt.registerTask("default", ["build"]);
 
   grunt.registerTask("build", [
-    "jshint:all"
+    "jshint:all",
+    "nodeunit:all"
   ]);
 
 };
