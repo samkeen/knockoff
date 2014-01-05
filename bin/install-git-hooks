@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd .git/hooks
+for hook in ../../bin/git-hooks/*; do
+    ln -s "$hook"
+done
