@@ -20,6 +20,6 @@ npm install
 node app
 ```
 
-## Documentations
+## Documentation
 
 Still in early development statges, Doc will appear once framework is usable.
